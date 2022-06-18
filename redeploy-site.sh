@@ -1,5 +1,4 @@
 #!/bin/bash
-echo "My nigga"
 pkill -f tmux
 
 cd project-team-jungle/
