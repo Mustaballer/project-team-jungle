@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block head %}
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    <!--- HTML form data --->
+
+    <div style="padding: 30px; background-color: lightgreen">
+        <form id="form" action="timeline.html">
+            <fieldset>
+                <legend>Add Timeline Post:</legend>
+                <label for="fname">Full Name:</label><br>
+                <input type="text" id="fname" name="name" value="Mustafa Abdulrahman"><br>
+                <label for="lname">Email:</label><br>
+                <input type="text" id="lname" name="email" value="mus2003.abdul@gmail.com"><br><br>
+                <label for="lname">Content</label><br>
+                <textarea rows="4" cols="50" name="content">At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.</textarea>
+                <br>
+                <button type="submit">Submit</button>
+            </fieldset>
+        </form>
+    </div>
+    <br>
+    <br>
+
+    <script>
+        const form = document.getElementById('form');
+
+        form.addEventListener('submit', function (e) {
+            // Prevent default behavior:
+            e.preventDefault();
+            // Create payload as new FormData object:
+            const payload = new FormData(form);
+
+            fetch('/api/timeline_post', {
+                method: 'POST',
+                body: payload,
+            })
+                .then(res => res.json())
+                .then(data => console.log(data))
+                .finally(() => location.reload())
+            form.reset();
+        });
+    </script>
+    <div style="text-align: center; padding: 30px">
+        <h1>Timeline</h1>
+    </div>
+    <div class="card-deck"></div>
+
+    <script>
+        async function getTimelinePosts() {
+            let url = '/api/timeline_post';
+            try {
+                let res = await fetch(url);
+                return await res.json();
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        async function renderTimelinePosts() {
+            let posts = await getTimelinePosts();
+            console.log(posts.timeline_posts);
+            let html = '';
+            posts.timeline_posts.forEach(post => {
+                let htmlSegment = ` <div class="card">
+                <img class="card-img-top" src="../static/img/jungle-icon.png" alt="Card image">
+                <div class="card-body">
+                    <h5 class="card-title">${post.name}: ${post.email}</h5>
+                    <p class="card-text">${post.content}</p>
+                    <p class="card-text">id: ${post.id}</p>
+                    <p class="card-text"><small class="text-muted">${post.created_at}</small></p>
+                    <br>
+                    <a role="button" class="btn btn-danger" href="javascript:deleteTimelinePost(${post.id})">Delete</a>
+                </div>
+            </div> `;
+
+                html += htmlSegment;
+            });
+
+            let container = document.querySelector('.card-deck');
+            container.innerHTML = html;
+        }
+
+        renderTimelinePosts();
+
+        async function deleteTimelinePost(id) {
+            let url = `/api/timeline_post/${id}`;
+            try {
+                fetch(url, {
+                    method: 'DELETE',
+                })
+                    .then(res => res.json())
+                    .then(data => console.log(data))
+                    .finally(() => location.reload())
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+    </script>
+
+
+
+
+{% endblock %}
+
+{% block footer %}{% endblock %}
