@@ -50,7 +50,7 @@ class AppTestCase(unittest.TestCase):
         assert '<input type="text" id="fname" name="name" value="Mustafa Abdulrahman">' in html
         assert '<input type="text" id="lname" name="email" value="mus2003.abdul@gmail.com">' in html
         assert '<textarea rows="4" cols="50" name="content">At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.</textarea>' in html
-        assert '<button type="submit">Submit</button>' in html
+        assert '<button type="submit">Submit timeline</button>' in html
         assert '<h5 class="card-title">${post.name}: ${post.email}</h5>' in html
         assert '<p class="card-text">${post.content}</p>' in html
 
