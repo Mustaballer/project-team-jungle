@@ -17,7 +17,7 @@ class AppTestCase(unittest.TestCase):
         assert "<title>Team Jungle Portfolio</title>" in html
         # Add more tests relating to home page
         assert '<h1>Welcome to&nbsp<span class="txt-type blink" data-wait="1500" data-words=\'["the", "Magnificent", "Mustafa", "Team Jungle"]\'></span></h1>' in html
-        assert "<h2>MLH fellowship hackathon portfolio</h2>" in html
+        assert "<h2>MLH fellowship Hackathon Portfolio</h2>" in html
         assert "<h1 class=\"hidden\">Welcome to&nbspTeam Jungle!!</h1>" in html
 
     def test_timeline(self):
